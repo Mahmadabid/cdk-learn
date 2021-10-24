@@ -2,8 +2,8 @@ import client from "./ddbClient";
 import Todo from './Todo';
 
 async function addTodo(todo: Todo) {
-    const params= {
-        TableName: process.env.TODOS_TABLE,
+    const params = {
+        TableName: process.env.TODOS_TABLE ? process.env.TODOS_TABLE : '',
         Item: todo
     }
 
