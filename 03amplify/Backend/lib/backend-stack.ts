@@ -36,7 +36,7 @@ export class BackendStack extends cdk.Stack {
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'createTodo'
+      fieldName: 'addTodo'
     })
 
     lambdaDataSource.createResolver({
@@ -49,5 +49,14 @@ export class BackendStack extends cdk.Stack {
       fieldName: 'updateTodos'
     })
 
+    const todosTable = new dynamodb.Table(this, 'Todostable', {
+      partitionKey: {
+        name: 'id',
+        type: dynamodb.AttributeType.STRING
+      }
+    })
+
+    todosTable.grantFullAccess(todosLambda);
+    todosLambda.addEnvironment('TODOS_TABLE', todosTable.tableName);
   }
 }
